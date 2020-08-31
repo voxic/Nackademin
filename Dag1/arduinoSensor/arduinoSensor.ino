@@ -10,5 +10,5 @@ void loop() {
   float voltage = (sensorVal/1024.0) * 5.0; //Calculate voltage
   float temperature = (voltage - 0.5) * 100; //Calculate temperature
   Serial.println(temperature); // Write temperature to serial connection
-  delay(100); // Wait for 100 ms
+  delay(1000); // Wait for 100 ms
 }

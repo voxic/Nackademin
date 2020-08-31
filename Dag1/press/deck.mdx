@@ -10,6 +10,7 @@ import mqtt from './mqtt-publish-subscribe.png'
 import rest from './rest.jpeg'
 import postman from './postman.png'
 import qr from './qr.png'
+import arduQR from './arduQR.png'
 
 export const theme = {
   ...dark,
@@ -17,7 +18,7 @@ export const theme = {
 }
 
 <Head>
-  <title>Introduktion till Internet of Things - Dag 1</title>
+  <title>Introduktion till Internet of Things</title>
 </Head>
 
 <Header>
@@ -28,7 +29,7 @@ export const theme = {
 
 <Footer>
 
-[@thisemil](https://twitter.com/thisemil) ©️ Emil Nilsson - För Nackademin IOT20_INTRO
+[@thisemil](https://twitter.com/thisemil) ©️ Emil Nilsson - För Nackademin IOT20_INTRO 🙅‍♂️
 
 
 </Footer>
@@ -36,7 +37,7 @@ export const theme = {
 
 # Introduktion till Internet of Things
 
-## Sensorer, Ekosystem och Plattformar
+## Sensorer, Mjukvara och Plattformar
 
 ---
 
@@ -69,7 +70,7 @@ export const theme = {
 
 <Split>
 
-<img src={collage} />
+<img src={collage} style={{ "height" : "1200px" }} />
 
 # Emil Nilsson
 ### Tinkerer, Coder, Father, Husband, Flyer
@@ -210,6 +211,160 @@ Sketch: Arduino Joystick, C
 
 ## Sketch implementerar funktionen  
 ## Firmware är bryggan mellan hårdvaran och sketch
+
+---
+
+# Introduktion: Python
+
+---
+
+# Note
+    Alla behöver en Kod editor. Välj vad ni vill. Jag kör Visual Studio Code <-- Bra val 😇
+
+---
+
+# Learn Python The Hard Way
+
+https://learnpythonthehardway.org/python3/
+
+---
+
+# Exercise 00
+
+    "The Setup"
+
+---
+
+# Exercise 01
+
+Input:
+
+```python
+
+print("Hello World!")
+print("Hello Again")
+print("I like typing this.")
+print("This is fun.")
+print('Yay! Printing.')
+print("I'd much rather you 'not'.")
+print('I "said" do not touch this.')
+
+```
+Output:
+```bash
+
+python3.6 ex1.py
+Hello World!
+Hello Again
+I like typing this.
+This is fun.
+Yay! Printing.
+I'd much rather you 'not'.
+I "said" do not touch this.
+
+```
+
+---
+
+# Exercise 02
+
+```python
+
+# A comment, this is so you can read your program later.
+# Anything after the # is ignored by python.
+
+print("I could have code like this.") # and the comment after is ignored
+
+# You can also use a comment to "disable" or comment out code:
+# print("This won't run.")
+
+print("This will run.")
+
+``` 
+
+---
+
+# Exercise 03
+
+```python
+
+print("I will now count my chickens:")
+
+print("Hens", 25 + 30 / 6)
+print("Roosters", 100 - 25 * 3 % 4)
+
+print("Now I will count the eggs:")
+
+print(3 + 2 + 1 - 5 + 4 % 2 - 1 / 4 + 6)
+
+print("Is it true that 3 + 2 < 5 - 7?")
+
+print(3 + 2 < 5 - 7)
+
+print("What is 3 + 2?", 3 + 2)
+print("What is 5 - 7?", 5 - 7)
+
+print("Oh, that's why it's False.")
+
+print("How about some more.")
+
+print("Is it greater?", 5 > -2)
+print("Is it greater or equal?", 5 >= -2)
+print("Is it less or equal?", 5 <= -2)
+
+```
+
+---
+
+# Exercise 04
+
+```python
+
+cars = 100
+space_in_a_car = 4.0
+drivers = 30
+passengers = 90
+cars_not_driven = cars - drivers
+cars_driven = drivers
+carpool_capacity = cars_driven * space_in_a_car
+average_passengers_per_car = passengers / cars_driven
+
+
+print("There are", cars, "cars available.")
+print("There are only", drivers, "drivers available.")
+print("There will be", cars_not_driven, "empty cars today.")
+print("We can transport", carpool_capacity, "people today.")
+print("We have", passengers, "to carpool today.")
+print("We need to put about", average_passengers_per_car,
+      "in each car.")
+
+```
+
+---
+
+# Moduler
+
+Där python hämtar sin styrka
+
+```python
+
+import json # <--- Modul
+
+# Mitt program kan nu hantera JSON
+print(json.loads(jsonDataFromServer)) 
+
+```
+
+---
+
+```python
+
+import paho.mqtt # <--- Modul
+
+# Mitt program kan nu hantera MQTT
+client = paho.Client(cfg['clientID'], True, None, paho.MQTTv31)
+
+```
 
 ---
 
@@ -408,13 +563,14 @@ Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Installation%20Home%
 
 ## Uppsättning Arduino Sensor
 
-Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Installation%20Home%20Assistant.md
+Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Upps%C3%A4ttning%20Arduino.md
 
-<img src={qr} style={{ "width" : "10%" }} />
+<img src={arduQR} style={{ "width" : "10%" }} />
 
 ---
 
 # Lab01-3
+
 ## Arduino sensor till Home Assistant
 
 ---
