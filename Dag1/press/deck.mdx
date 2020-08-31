@@ -1,0 +1,433 @@
+import codeImage from './introPhoto.jpeg'
+import collage from './collage.png'
+import { dark, highlight } from '@mdx-deck/themes'
+import haLogo from './home-assistant-logo.svg'
+import haArch from './ha_architecture.png'
+import hw from './hw.png'
+import tbArch from './tb-arch.png'
+import commonLang from './commonLang.png'
+import mqtt from './mqtt-publish-subscribe.png'
+import rest from './rest.jpeg'
+import postman from './postman.png'
+
+export const theme = {
+  ...dark,
+  ...highlight
+}
+
+<Head>
+  <title>Introduktion till Internet of Things - Dag 1</title>
+</Head>
+
+<Header>
+
+# Introduktion till Internet of Things
+
+</Header>
+
+<Footer>
+
+[@thisemil](https://twitter.com/thisemil) ©️ Emil Nilsson - För Nackademin IOT20_INTRO
+
+
+</Footer>
+
+
+# Introduktion till Internet of Things
+
+## Sensorer, Ekosystem och Plattformar
+
+---
+
+# Agenda
+
+- Intro
+- Hårdvara
+- Mjukvara
+- Plattformar
+    - Home Assistant
+    - ThingsBoard
+- Lab01
+- Lab02
+- Uppgift
+
+---
+
+<Split>
+
+# Intro
+
+<img src={codeImage} />
+
+</Split>
+
+---
+
+<Split>
+
+<img src={collage} />
+
+# Emil Nilsson
+### Tinkerer, Coder, Father, Husband, Flyer
+
+</Split>
+
+---
+
+# Hårdvara
+### Sensorer, Microkontroller, Gateways, osv.
+
+---
+
+<img src={hw} />
+
+---
+
+# Mjukvara
+### Firmware, Converters, API, SDK, Protokoll, Programmering
+
+---
+
+# Fråga:
+### Hur många har programmerat tidigare?
+
+---
+
+# Fråga:
+### Vilka programmeringsspråk känner ni till?
+
+---
+
+<img src={commonLang} style={{"height": "70%"}}/>
+
+#### source: https://insights.stackoverflow.com/survey/2020#technology
+
+---
+
+# Programmering inom IoT
+
+  * Firmware
+  * Converters
+  * Bryggor
+  * Filter
+  * API Anrop
+
+
+  * Python
+  * JavaScript
+  * Java
+  * C
+
+---
+
+# Exempel
+https://github.com/voxic/thingsboardTrafikverket/blob/master/trafikverketBridgeMQTT.py
+
+---
+
+# Diskussion:
+## Vad är Firmware?
+  - Användningsområden
+  - Miljö/Runtime
+  - Programmeringsspråk
+  - Skillnad mellan sketch och firmware?
+
+---
+
+
+```c
+#include "Joystick.h"
+
+Joystick_ Joystick;
+
+  int xAxis_ = 0;
+  int RxAxis_ = 0;
+  int yAxis_ = 0;                 
+  int RyAxis_ = 0;
+  int throttle=0;
+  void setup()
+{
+  //Setup all buttons as inputs with PULLUP
+  for(int i = 3;i < 13;i++){
+    pinMode(i, INPUT_PULLUP);
+  }
+  
+  Joystick.begin();
+  //Serial.begin(9600); //Start serial monitoring
+}
+void loop()
+{
+      //Check button states
+      checkButtons();
+
+      //Read and set X Axis
+      xAxis_ = analogRead(A2);
+      //Serial.print("X: ");
+      //Serial.println(xAxis_);
+      xAxis_ = map(xAxis_,0,1023,255,0); //Map and Reverse the axis
+      Joystick.setXAxis(xAxis_);
+
+      //Read and set Y Axis
+      yAxis_ = analogRead(A1);
+      //Serial.print("y: ");
+      //Serial.println(yAxis_);
+      yAxis_ = map(yAxis_,0,1023,255,0); //Map and Reverse the axis
+      Joystick.setYAxis(yAxis_);
+
+      // Read and set Throttle
+      throttle = analogRead(A3);
+      //Serial.print("t: ");
+      //Serial.println(throttle);
+      throttle = map(throttle,0,1023,0,255); //Map the axis
+      Joystick.setThrottle(throttle);
+      
+      
+      Joystick.sendState(); //Send the new state to computer
+
+      //Slow eveything down a bit
+      delay(10);
+}
+
+void checkButtons(void){
+
+  //Loop over each pin and set Button to the oposite (Pullup)
+  for(int i = 3;i < 13;i++){
+    Joystick.setButton(i, !digitalRead(i));
+  }
+    
+  
+}
+
+```
+
+Sketch: Arduino Joystick, C
+
+---
+
+## Sketch implementerar funktionen  
+## Firmware är bryggan mellan hårdvaran och sketch
+
+---
+
+# Protokoll
+Vanliga protokoll inom IoT:
+- MQTT 
+- REST
+- CoAP
+- SOAP
+
+---
+
+<Split>
+
+# MQTT
+<img src={mqtt} />
+
+</Split>
+
+---
+
+<Split>
+
+# MQTT forts.
+Broker: Mosquitto https://mosquitto.org/
+
+Client: MQTTExplorer  
+http://mqtt-explorer.com/
+
+</Split>
+
+---
+
+# MQTT Övning
+
+Chatta med MQTT
+
+1. Dela in er två och två
+2. Installera MQTT Explorer
+3. Anslut till mqtt.eclipse.org
+4. Kom överrens om en topic
+5. Börja chatta
+
+---
+
+# REST
+Representational state transfer (REST)
+
+- En bas URI, exempel: http://api.example.com/collection/
+
+- Standard HTTP metoder (e.g., GET, POST, PUT, PATCH and DELETE)
+
+- Vanligt med svar i JSON-format
+
+<img src={rest} style={{"width" : "20%"}}/>
+
+
+---
+
+
+Vanligt protokoll för att interagera med API:er
+
+```bash
+
+curl --location --request GET 'https://pokeapi.co/api/v2/pokemon/pikachu'
+
+```
+
+<div style={{ 'text-align' : 'left'}}>
+
+
+
+```bash
+{
+  "name": "pikachu",
+  "order": 35,
+  "species": {
+      "name": "pikachu",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/25/"
+  },
+  "stats": [
+      {
+          "base_stat": 35,
+          "effort": 0,
+          "stat": {
+              "name": "hp",
+              "url": "https://pokeapi.co/api/v2/stat/1/"
+          }
+      }
+    ]
+}
+```
+</div>
+
+
+---
+
+# Verktyg
+
+### Postman  
+https://www.postman.com/
+
+### cURL
+https://en.wikipedia.org/wiki/CURL
+
+---
+
+# Övning:
+Använd postman för att göra ett API anrop
+
+---
+
+<img src={postman} style={{ "width" : "80%" }} />
+
+---
+
+# API
+**A**pplication **P**rogramming **I**nterface
+
+---
+
+# SDK
+**S**oftware **D**evelopment **K**it
+
+---
+
+# Diskussion:
+## Användningsområden för API:er/SDK
+  - Exempel på API:er
+  - Exempel på där ett API avänds
+  - Skillnader mellan SDK och API
+
+---
+
+# Plattformar
+    "A platform to rule them all"
+
+---
+
+# Diskussion:
+## Plattformar och Ekosystem
+  - Vilka känner ni till?
+  - Skillnader?
+
+---
+
+<Split>
+<img src={haLogo}  style={{ width: '200px' }} />
+
+# Home Assistant
+</Split>
+
+---
+
+# Home Assistant
+
+    "Open source home automation that puts local control and privacy first. 
+    Powered by a worldwide community of tinkerers and DIY enthusiasts. 
+    Perfect to run on a Raspberry Pi or a local server."
+
+  https://homeassistant.io
+
+---
+
+# Arkitektur
+
+<Split>
+
+<img src={haArch} />
+
+Bra exempel på en modern event-driven arkitektur
+
+</Split>
+
+---
+
+  - Abstraktionslager
+  - Integration
+  - Automation
+  - Loggning
+  - NAV
+
+---
+
+# Lab01-1
+## Installation Home Assistant
+
+---
+
+# Lab01-2
+## Uppsättning Arduino Sensor
+
+---
+
+# Lab01-3
+## Arduino sensor till Home Assistant
+
+---
+
+# Thingsboard
+    "ThingsBoard is an open-source IoT platform that enables rapid development, 
+    management and scaling of IoT projects. The goal is to provide the out-of-the-box IoT cloud or 
+    on-premises solution that will enable server-side infrastructure for your IoT applications."
+https://thingsboard.io
+
+---
+
+# Arkitektur
+
+<img src={tbArch} />
+
+    "Enterprise-grade Event architecture"
+
+---
+
+  - Provision devices, assets and customers and define relations between them.
+  - Collect and visualize data from devices and assets.
+  - Analyze incoming telemetry and trigger alarms with complex event processing.
+  - Control your devices using remote procedure calls (RPC).
+  - Build work-flows based on device life-cycle event, REST API event, RPC request, etc
+  - Design dynamic and responsive dashboards and present device or asset telemetry and insights to your customers
+  - Enable use-case specific features using customizable rule chains.
+  - Push device data to other systems.
+
+    
