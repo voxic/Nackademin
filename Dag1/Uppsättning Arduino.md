@@ -25,6 +25,7 @@ För denna LAB så skall vi använda oss av Arduino UNO samt TMP36, Temperatur s
 2. Kontrollera att Arduino IDE ser din Arduino
     * Gå till Tools > Board och Säkerställ att Arduino UNO är vald
     * Gå till Tools > Port och säkerställ att din Arduino är vald
+
 !["tools"](tools.png)
 
 ### 4. Första Exempel
