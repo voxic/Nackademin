@@ -1,0 +1,656 @@
+import codeImage from './introPhoto.jpeg'
+import collage from './collage.png'
+import { dark, highlight } from '@mdx-deck/themes'
+import haLogo from './home-assistant-logo.svg'
+import haArch from './ha_architecture.png'
+import hw from './hw.png'
+import tbArch from './tb-arch.png'
+import commonLang from './commonLang.png'
+import mqtt from './mqtt-publish-subscribe.png'
+import rest from './rest.jpeg'
+import postman from './postman.png'
+import qr from './qr.png'
+import arduQR from './arduQR.png'
+import haQR from './haQR.png'
+import tools from './tools.png'
+
+export const theme = {
+  ...dark,
+  ...highlight
+}
+
+<Head>
+  <title>Introduktion till Internet of Things</title>
+</Head>
+
+<Header>
+
+# Introduktion till Internet of Things
+
+</Header>
+
+<Footer>
+
+[@thisemil](https://twitter.com/thisemil) ©️ Emil Nildersen - För Nackademin IOT21_INTRO 🙅‍♂️
+
+
+</Footer>
+
+
+# Introduktion till Internet of Things
+
+## Sensorer, Mjukvara och Plattformar
+
+---
+
+# Agenda
+
+- Intro
+- Hårdvara
+- Mjukvara
+- Verktyg
+- Plattform
+    - Home Assistant
+- Lab01-1
+- Lab01-2
+- Lab01-3
+- Plattform
+    - ThingsBoard
+- Lab02
+- Uppgift
+
+---
+
+<Split>
+
+# Intro
+
+<img src={codeImage} />
+
+</Split>
+
+---
+
+<Split>
+
+<img src={collage} style={{ "height" : "1200px" }} />
+
+# Emil Nildersen
+### Tinkerer, Coder, Father, Husband, Flyer
+
+</Split>
+
+---
+
+# Hårdvara
+### Sensorer, Microkontroller, Gateways, osv.
+
+---
+
+<img src={hw} />
+
+---
+
+# Fråga:
+### Vilken erfarenhet har ni av olika sensorer/chip/datorer?
+
+#### Poll: Hårdvara
+
+---
+
+# Diskussion:
+## IoT i vardagen
+  - Exempel
+  - Användningsområden
+
+---
+
+# Mjukvara
+### Firmware, Converters, API, SDK, Protokoll, Programmering
+
+---
+
+# Fråga:
+### Hur många har programmerat tidigare?
+
+#### Poll: Programmering
+
+---
+
+# Fråga:
+### Vilka programmeringsspråk känner ni till?
+
+---
+
+<img src={commonLang} style={{"height": "70%"}}/>
+
+#### source: https://insights.stackoverflow.com/survey/2020#technology
+
+---
+
+# Programmering inom IoT
+
+  * Firmware
+  * Converters
+  * Bryggor
+  * Filter
+  * API Anrop
+
+
+  * Python
+  * JavaScript
+  * Java
+  * C
+
+---
+
+# Exempel
+https://github.com/voxic/thingsboardTrafikverket/blob/master/trafikverketBridgeMQTT.py
+
+---
+
+# Diskussion:
+## Vad är Firmware?
+  - Användningsområden
+  - Miljö/Runtime
+  - Programmeringsspråk
+  - Skillnad mellan sketch och firmware?
+
+---
+
+
+```c
+#include "Joystick.h"
+
+Joystick_ Joystick;
+
+  int xAxis_ = 0;
+  int RxAxis_ = 0;
+  int yAxis_ = 0;                 
+  int RyAxis_ = 0;
+  int throttle=0;
+  void setup()
+{
+  //Setup all buttons as inputs with PULLUP
+  for(int i = 3;i < 13;i++){
+    pinMode(i, INPUT_PULLUP);
+  }
+  
+  Joystick.begin();
+  //Serial.begin(9600); //Start serial monitoring
+}
+void loop()
+{
+      //Check button states
+      checkButtons();
+
+      //Read and set X Axis
+      xAxis_ = analogRead(A2);
+      //Serial.print("X: ");
+      //Serial.println(xAxis_);
+      xAxis_ = map(xAxis_,0,1023,255,0); //Map and Reverse the axis
+      Joystick.setXAxis(xAxis_);
+
+      //Read and set Y Axis
+      yAxis_ = analogRead(A1);
+      //Serial.print("y: ");
+      //Serial.println(yAxis_);
+      yAxis_ = map(yAxis_,0,1023,255,0); //Map and Reverse the axis
+      Joystick.setYAxis(yAxis_);
+
+      // Read and set Throttle
+      throttle = analogRead(A3);
+      //Serial.print("t: ");
+      //Serial.println(throttle);
+      throttle = map(throttle,0,1023,0,255); //Map the axis
+      Joystick.setThrottle(throttle);
+      
+      
+      Joystick.sendState(); //Send the new state to computer
+
+      //Slow eveything down a bit
+      delay(10);
+}
+
+void checkButtons(void){
+
+  //Loop over each pin and set Button to the oposite (Pullup)
+  for(int i = 3;i < 13;i++){
+    Joystick.setButton(i, !digitalRead(i));
+  }
+    
+  
+}
+
+```
+
+Sketch: Arduino Joystick, C
+
+---
+
+## Sketch implementerar funktionen  
+## Firmware är bryggan mellan hårdvaran och sketch
+
+---
+
+# Introduktion: Python
+
+---
+
+# Note
+    Alla behöver en Kod-editor. Välj vad ni vill. Jag kör Visual Studio Code <-- Bra val 😇
+
+---
+
+# Learn Python The Hard Way
+
+https://learnpythonthehardway.org/python3/
+
+---
+
+# Exercise 00
+
+    "The Setup"
+
+---
+
+# Exercise 01
+
+Input:
+
+```python
+
+print("Hello World!")
+print("Hello Again")
+print("I like typing this.")
+print("This is fun.")
+print('Yay! Printing.')
+print("I'd much rather you 'not'.")
+print('I "said" do not touch this.')
+
+```
+Output:
+```bash
+
+python3.6 ex1.py
+Hello World!
+Hello Again
+I like typing this.
+This is fun.
+Yay! Printing.
+I'd much rather you 'not'.
+I "said" do not touch this.
+
+```
+
+---
+
+# Exercise 02
+
+```python
+
+# A comment, this is so you can read your program later.
+# Anything after the # is ignored by python.
+
+print("I could have code like this.") # and the comment after is ignored
+
+# You can also use a comment to "disable" or comment out code:
+# print("This won't run.")
+
+print("This will run.")
+
+``` 
+
+---
+
+# Exercise 03
+
+```python
+
+print("I will now count my chickens:")
+
+print("Hens", 25 + 30 / 6)
+print("Roosters", 100 - 25 * 3 % 4)
+
+print("Now I will count the eggs:")
+
+print(3 + 2 + 1 - 5 + 4 % 2 - 1 / 4 + 6)
+
+print("Is it true that 3 + 2 < 5 - 7?")
+
+print(3 + 2 < 5 - 7)
+
+print("What is 3 + 2?", 3 + 2)
+print("What is 5 - 7?", 5 - 7)
+
+print("Oh, that's why it's False.")
+
+print("How about some more.")
+
+print("Is it greater?", 5 > -2)
+print("Is it greater or equal?", 5 >= -2)
+print("Is it less or equal?", 5 <= -2)
+
+```
+
+---
+
+# Exercise 04
+
+```python
+
+cars = 100
+space_in_a_car = 4.0
+drivers = 30
+passengers = 90
+cars_not_driven = cars - drivers
+cars_driven = drivers
+carpool_capacity = cars_driven * space_in_a_car
+average_passengers_per_car = passengers / cars_driven
+
+
+print("There are", cars, "cars available.")
+print("There are only", drivers, "drivers available.")
+print("There will be", cars_not_driven, "empty cars today.")
+print("We can transport", carpool_capacity, "people today.")
+print("We have", passengers, "to carpool today.")
+print("We need to put about", average_passengers_per_car,
+      "in each car.")
+
+```
+
+---
+
+# Moduler
+
+Där python hämtar sin styrka
+
+```python
+
+import json # <--- Modul
+
+# Mitt program kan nu hantera JSON
+print(json.loads(jsonDataFromServer)) 
+
+```
+
+---
+
+```python
+
+import paho.mqtt # <--- Modul
+
+# Mitt program kan nu hantera MQTT
+client = paho.Client(cfg['clientID'], True, None, paho.MQTTv31)
+
+```
+
+---
+
+# Protokoll
+
+---
+
+# Fråga:
+### Vad är ett protokoll?
+
+---
+
+# Protokoll
+Vanliga protokoll inom IoT:
+- MQTT 
+- REST
+- CoAP
+- SOAP
+
+---
+
+<Split>
+
+# MQTT
+<img src={mqtt} />
+
+</Split>
+
+---
+
+<Split>
+
+# MQTT forts.
+Broker: Mosquitto https://mosquitto.org/
+
+Client: MQTTExplorer  
+http://mqtt-explorer.com/
+
+</Split>
+
+---
+
+# MQTT Övning
+
+Chatta med MQTT
+
+1. Dela in er två och två
+2. Installera MQTT Explorer
+3. Anslut till mqtt.eclipse.org
+4. Kom överrens om en topic
+5. Börja chatta
+
+---
+
+# REST
+Representational state transfer (REST)
+
+- En bas URI, exempel: http://api.example.com/collection/
+
+- Standard HTTP metoder (e.g., GET, POST, PUT, PATCH and DELETE)
+
+- Vanligt med svar i JSON-format
+
+<img src={rest} style={{"width" : "20%"}}/>
+
+
+---
+
+
+Vanligt protokoll för att interagera med API:er
+
+```bash
+
+curl --location --request GET 'https://pokeapi.co/api/v2/pokemon/pikachu'
+
+```
+
+<div style={{ 'text-align' : 'left'}}>
+
+
+
+```bash
+{
+  "name": "pikachu",
+  "order": 35,
+  "species": {
+      "name": "pikachu",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/25/"
+  },
+  "stats": [
+      {
+          "base_stat": 35,
+          "effort": 0,
+          "stat": {
+              "name": "hp",
+              "url": "https://pokeapi.co/api/v2/stat/1/"
+          }
+      }
+    ]
+}
+```
+</div>
+
+
+---
+
+# Verktyg
+
+### Postman  
+https://www.postman.com/
+
+### cURL
+https://en.wikipedia.org/wiki/CURL
+
+---
+
+# Övning:
+Använd postman för att göra ett API anrop
+
+---
+
+<img src={postman} style={{ "width" : "80%" }} />
+
+---
+
+# API
+**A**pplication **P**rogramming **I**nterface
+
+---
+
+# SDK
+**S**oftware **D**evelopment **K**it
+
+---
+
+# Diskussion:
+## Användningsområden för API:er/SDK
+  - Exempel på API:er
+  - Exempel på där ett API avänds
+  - Skillnader mellan SDK och API
+
+---
+
+<Split>
+<img src={tools}  style={{ width: '400px' }} />
+
+# Verktyg
+  - Node-red
+  - Grafana
+  - Postman
+  - MQTTExplorer
+  - Git/Github
+
+
+</Split>
+
+---
+
+# Poll: Git
+
+---
+
+# Plattformar
+    "A platform to rule them all"
+
+---
+
+# Diskussion:
+## Plattformar och Ekosystem
+  - Vilka känner ni till?
+  - Skillnader?
+
+---
+
+<Split>
+<img src={haLogo}  style={{ width: '200px' }} />
+
+# Home Assistant
+</Split>
+
+---
+
+# Home Assistant
+
+    "Open source home automation that puts local control and privacy first. 
+    Powered by a worldwide community of tinkerers and DIY enthusiasts. 
+    Perfect to run on a Raspberry Pi or a local server."
+
+  https://homeassistant.io
+
+---
+
+# Arkitektur
+
+<Split>
+
+<img src={haArch} />
+
+Bra exempel på en modern event-driven arkitektur
+
+</Split>
+
+---
+
+  - Abstraktionslager
+  - Integration
+  - Automation
+  - Loggning
+  - NAV
+
+---
+
+# Lab01-1
+
+## Installation Home Assistant
+
+Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Installation%20Home%20Assistant.md
+
+<img src={qr} style={{ "width" : "10%" }} />
+
+---
+
+# Lab01-2
+
+## Uppsättning Arduino Sensor
+
+Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Upps%C3%A4ttning%20Arduino.md
+
+<img src={arduQR} style={{ "width" : "10%" }} />
+
+---
+
+# Lab01-3
+
+## Arduino sensor till Home Assistant
+
+Guide: https://github.com/voxic/Nackademin/blob/master/Dag1/Arduino%20till%20Home%20Assistant.md
+
+<img src={haQR} style={{ "width" : "10%" }} />
+
+---
+
+---
+
+# Thingsboard
+    "ThingsBoard is an open-source IoT platform that enables rapid development, 
+    management and scaling of IoT projects. The goal is to provide the out-of-the-box IoT cloud or 
+    on-premises solution that will enable server-side infrastructure for your IoT applications."
+https://thingsboard.io
+
+---
+
+# Arkitektur
+
+<img src={tbArch} />
+
+    "Enterprise-grade Event architecture"
+
+---
+
+  - Provision devices, assets and customers and define relations between them.
+  - Collect and visualize data from devices and assets.
+  - Analyze incoming telemetry and trigger alarms with complex event processing.
+  - Control your devices using remote procedure calls (RPC).
+  - Build work-flows based on device life-cycle event, REST API event, RPC request, etc
+  - Design dynamic and responsive dashboards and present device or asset telemetry and insights to your customers
+  - Enable use-case specific features using customizable rule chains.
+  - Push device data to other systems.
+
+    
